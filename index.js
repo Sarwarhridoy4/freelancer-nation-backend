@@ -21,6 +21,7 @@ async function run(){
          // guidelineData
          const guidelineData = client.db('freelancerNation').collection('guidelineData');
          const serviceCategoty = client.db('freelancerNation').collection('serviceCategoty');
+         const sellerCollection = client.db('freelancerNation').collection('sellerInfo');
 
 
 
@@ -39,7 +40,13 @@ async function run(){
             res.send(data);
         })
 
-
+        //Send seller to database
+        app.post('/saveseller', async(req, res) => {
+            const sellerinfo = req.body;
+            const result = await sellerCollection.insertOne(sellerinfo);
+            console.log(result);
+            res.send(result);
+        })
     }
     finally{
 
