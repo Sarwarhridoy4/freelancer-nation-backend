@@ -13,7 +13,6 @@ app.use(express.json());
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.0opjg0j.mongodb.net/?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 
-console.log(uri);
 
 
 async function run(){
@@ -23,10 +22,12 @@ async function run(){
          const serviceCategoty = client.db('freelancerNation').collection('serviceCategoty');
          const sellerCollection = client.db('freelancerNation').collection('sellerInfo');
 
+         const usersCollection = client.db('freelancerNation').collection('users');
 
 
 
-         // gettung guidelineData
+
+         // getting guidelineData
         app.get('/guidelineData', async(req, res) => {
             const query = {};
             const data = await guidelineData.find(query).toArray();
@@ -42,11 +43,26 @@ async function run(){
 
         //Send seller to database
         app.post('/saveseller', async(req, res) => {
-            const sellerinfo = req.body;
-            const result = await sellerCollection.insertOne(sellerinfo);
+            const sellerInfo = req.body;
+            const result = await sellerCollection.insertOne(sellerInfo);
             console.log(result);
             res.send(result);
+        });
+
+        // user(buyer and seller) data save------------
+        app.put('/buyerData', async(req, res) => {
+            const user = req.body
+            const email = user.email
+            const filter = { email: email }
+            const options = { upsert: true }
+            const updateDoc = {
+                $set: user,
+            }
+            const result = await usersCollection.updateOne(filter, updateDoc, options);
+            res.send(result);
         })
+
+
     }
     finally{
 
