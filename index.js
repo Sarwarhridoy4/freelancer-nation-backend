@@ -24,6 +24,8 @@ async function run() {
     const serviceCategoty = client.db('freelancerNation').collection('serviceCategoty');
     const sellerCollection = client.db('freelancerNation').collection('sellerInfo');
 
+    const sellerGigCollection = client.db('freelancerNation').collection('sellerGig');
+
     const usersCollection = client.db('freelancerNation').collection('users');
 
 
@@ -121,7 +123,14 @@ async function run() {
     app.post('/saveseller', async (req, res) => {
       const sellerInfo = req.body;
       const result = await sellerCollection.insertOne(sellerInfo);
-      console.log(result);
+      res.send(result);
+    });
+
+
+    //Send seller gig to database
+    app.post('/seller/gig', async (req, res) => {
+      const sellerInfo = req.body;
+      const result = await sellerGigCollection.insertOne(sellerInfo);
       res.send(result);
     });
 
