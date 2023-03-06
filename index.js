@@ -148,8 +148,10 @@ async function run() {
 
 
     //get seller gig from database
-    app.get('/seller/gig', async (req, res) => {
-      const result = await sellerGigCollection.find({}).toArray();
+    app.get('/seller/gig/:email', async (req, res) => {
+      const email = req.params.email
+      const query = { email : email}
+      const result = await sellerGigCollection.find(query).toArray();
       res.send(result);
     });
 
