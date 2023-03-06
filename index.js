@@ -111,6 +111,18 @@ async function run() {
       const data = await guidelineData.find(query).toArray();
       res.send(data);
     });
+    // getting guidelineData
+    app.get('/sellerGigAll', async (req, res) => {
+      const query = {};
+      const data = await sellerGigCollection.find(query).toArray();
+      res.send(data);
+    });
+    // getting guidelineData 
+    app.get('/sellerGigShort', async (req, res) => {
+      const query = {};
+      const data = await sellerGigCollection.find(query).limit(6).toArray();
+      res.send(data);
+    });
 
     // getting serviceCategoty
     app.get('/serviceCategoty', async (req, res) => {
