@@ -85,21 +85,21 @@ async function run() {
 
 
     //------------------------------------------------------------
-     // get user for seller--------
-     app.get('/users/:email', async (req, res) => {
+    // get user for seller--------
+    app.get('/users/:email', async (req, res) => {
       const email = req.params.email;
       const query = { email };
       const user = await usersCollection.findOne(query)
       res.send({ isSeller: user?.sellerAccount === true });
-  });
+    });
 
-     // get user for buyers--------
-     app.get('/users/buyer/:email', async (req, res) => {
+    // get user for buyers--------
+    app.get('/users/buyer/:email', async (req, res) => {
       const email = req.params.email;
       const query = { email };
       const user = await usersCollection.findOne(query);
       res.send({ isBuyer: user?.sellerAccount === false });
-  });
+    });
 
 
 
@@ -135,6 +135,19 @@ async function run() {
     });
 
 
+    //get seller gig from database
+    app.get('/seller/gig', async (req, res) => {
+      const result = await sellerGigCollection.find({}).toArray();
+      res.send(result);
+    });
+
+    // admin delete any buyer or sellers-----------
+    app.delete('/gig/delete/:id', async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await sellerGigCollection.deleteOne(query);
+      res.send(result);
+    });
 
 
   }
