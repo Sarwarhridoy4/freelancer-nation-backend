@@ -176,10 +176,19 @@ async function run() {
     });
 
 
+    // order gig post to database
+    app.get('/buyer/gigOrders/:email', async (req, res) => {
+      const buyerEmail = req.params.email;
+      const query = { buyerEmail: buyerEmail };
+      const result = await orderGigCollection.find(query).toArray();
+      res.send(result);
+    });
 
 
 
-    
+
+
+
   }
   finally {
 
