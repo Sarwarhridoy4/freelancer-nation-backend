@@ -26,6 +26,8 @@ async function run() {
 
     const sellerGigCollection = client.db('freelancerNation').collection('sellerGig');
 
+    const orderGigCollection = client.db('freelancerNation').collection('orderGig');
+
     const usersCollection = client.db('freelancerNation').collection('users');
 
 
@@ -111,12 +113,14 @@ async function run() {
       const data = await guidelineData.find(query).toArray();
       res.send(data);
     });
+
     // getting guidelineData
     app.get('/sellerGigAll', async (req, res) => {
       const query = {};
       const data = await sellerGigCollection.find(query).toArray();
       res.send(data);
     });
+
     // getting guidelineData 
     app.get('/sellerGigShort', async (req, res) => {
       const query = {};
@@ -164,6 +168,18 @@ async function run() {
     });
 
 
+    // order gig post to database
+    app.post('/order/gig', async (req, res) => {
+      const orderGigInfo = req.body;
+      const result = await orderGigCollection.insertOne(orderGigInfo);
+      res.send(result);
+    });
+
+
+
+
+
+    
   }
   finally {
 
